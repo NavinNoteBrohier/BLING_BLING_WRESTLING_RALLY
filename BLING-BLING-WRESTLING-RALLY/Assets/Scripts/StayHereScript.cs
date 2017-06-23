@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class StayHereScript : MonoBehaviour
+public class StayHereScript : NetworkBehaviour
 {
     public Transform obj;
     public Vector3 pos;
@@ -18,8 +19,12 @@ public class StayHereScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        SetPos();
+    }
 
+    void SetPos()
+    {
         obj.position = pos;
-        obj.rotation = rot;	
-	}
+        obj.rotation = rot;
+    }
 }
