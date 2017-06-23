@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class BattleScript : MonoBehaviour {
+public class BattleScript : NetworkBehaviour
+{
 
 	public float Maxhealth, Strength;
-	private float Health, DecayTimer;
+
+    [SyncVar]
+    private float Health;
+
+    public float DecayTimer;
 	public float Decay, DecayRate;
 	public GameObject UI_Slider;
 
@@ -23,22 +29,31 @@ public class BattleScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+        if (isLocalPlayer)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (isServer)
+                    Health += Strength;
+                else
+                    Health -= Strength;
+            }
 
 
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Health += Strength;
-		}
-		else
-		{
-			if (DecayTimer <= 0) Health = Health < Maxhealth / 2 ? Health += Decay * Time.deltaTime : Health -= Decay * Time.deltaTime;
+            //            RunDecay();
 
-			DecayTimer = DecayTimer <= 0 ? DecayRate : DecayTimer -= Time.deltaTime;
-		}
+            if (DecayTimer <= 0) Health = Health < Maxhealth / 2 ? Health += Decay * Time.deltaTime : Health -= Decay * Time.deltaTime;
+
+            DecayTimer = DecayTimer <= 0 ? DecayRate : DecayTimer -= Time.deltaTime;
 
 
+        }
 
-
-		UI_Slider.GetComponent<Slider>().value = Health;
+        UI_Slider.GetComponent<Slider>().value = Health;
 	}
+
+    void RunDecay()
+    {
+
+    }
 }

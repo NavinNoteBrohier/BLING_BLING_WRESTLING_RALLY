@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoadCamera : MonoBehaviour
 {
-    private Camera _Cam;
+    public Camera _Cam;
 
     // Use this for initialization
     void Start()
